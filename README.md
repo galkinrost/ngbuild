@@ -94,6 +94,10 @@ gulp.task('watch', function () {
 });
 ```
 
+```sh
+gulp watch
+```
+
 Example of grunt integration
 
 ```javascript
@@ -115,6 +119,10 @@ grunt.registerTask('ngbuild', function () {
         dest: 'app.build.js'
     });
 });
+```
+
+```sh
+grunt watch
 ```
 
 License
