@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+var program = require('commander'),
+    fs = require('fs'),
+    ngbuild = require('../lib/ngbuild');
+
+program
+    .version(require('../package.json').version)
+    .usage('<infile> <outfile>')
+    .parse(process.argv);
+
+if ( program.args.length !== 2) {
+    console.error('ngbuild should be called with an input and output file');
+    process.exit(1);
+}
+
+    var infile = program.args[0];
+    var outfile = program.args[1];
+
+    try {
+        var content = ngbuild({src: infile, dest: outfile});
+    } catch (e) {
+        console.error('Error opening: ' + infile);
+        process.exit(1);
+    }
+
+    try {
+        fs.writeFileSync(outfile, generatedCode);
+    } catch (e) {
+        console.error('Error writing to: ' + outfile);
+        process.exit(1);
+    }
+
