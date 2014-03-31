@@ -57,7 +57,35 @@ angular.module('App',['Controllers']);
 ```
 Cause filename <strong>module.js</strong> is special and means that this file must be inserted before other from  folder.
 
+And the last
+----
+We can have app's architecture like that
+```
+/app.js
+/modules.js 
+```
+In <strong>/app.js</strong>
+```javascript
+angular.module('App',['/modules']);
+```
+In <strong>/modules.js</strong>
+```javascript
+angular.module('Controllers',[]);
+angular.module('Directives',[]);
+angular.module('Filters',[]);
+```
+Call ngbuild and get in <stong>/app.build.js</strong>
+```javascript
+angular.module('Controllers',[]);
+angular.module('Directives',[]);
+angular.module('Filters',[]);
+angular.module('App',['Controllers','Directives','Filters']);
+```
+Rules
+---
 All modules must be inserted must begin with <strong>forward slash</strong> <em>/</em>
+<br>
+If path is a folder it must have special file <stong>module.js</strong> with module
 
 Installation
 --------------
