@@ -18,14 +18,14 @@ if ( program.args.length !== 2) {
     var outfile = program.args[1];
 
     try {
-        var content = ngbuild({src: infile, dest: outfile});
+        var build = ngbuild({src: infile, dest: outfile});
     } catch (e) {
         console.error('Error opening: ' + infile);
         process.exit(1);
     }
 
     try {
-        fs.writeFileSync(outfile, generatedCode);
+        fs.writeFileSync(outfile, build);
     } catch (e) {
         console.error('Error writing to: ' + outfile);
         process.exit(1);
