@@ -78,7 +78,7 @@ Gulp/Grunt
 Example of gulp integration
 
 ```javascript
-var gulp=require('gulp);
+var gulp=require('gulp');
 var ngbuild=require('ngbuild');
 
 gulp.task('ngbuild', function () {
@@ -97,8 +97,8 @@ gulp.task('watch', function () {
 Example of grunt integration
 
 ```javascript
-var grunt = require("grunt");
-var ngbuild = require("ngbuild");
+var grunt = require('grunt');
+var ngbuild = require('ngbuild');
 
 grunt.initConfig({
     watch: {
