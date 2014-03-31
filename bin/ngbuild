@@ -9,25 +9,15 @@ program
     .usage('<infile> <outfile>')
     .parse(process.argv);
 
-if ( program.args.length !== 2) {
+if (program.args.length !== 2) {
     console.error('ngbuild should be called with an input and output file');
     process.exit(1);
 }
 
-    var infile = program.args[0];
-    var outfile = program.args[1];
+var infile = program.args[0];
+var outfile = program.args[1];
 
-    try {
-        var build = ngbuild({src: infile, dest: outfile});
-    } catch (e) {
-        console.error('Error opening: ' + infile);
-        process.exit(1);
-    }
 
-    try {
-        fs.writeFileSync(outfile, build);
-    } catch (e) {
-        console.error('Error writing to: ' + outfile);
-        process.exit(1);
-    }
+var build = ngbuild({src: infile, dest: outfile});
+
 
