@@ -1,18 +1,19 @@
 {
-    "name": "ngbuild",
-    "version": "0.0.7",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/galkinrost/ngbuild"
-    },
-    "bin": "./bin/ngbuild",
-    "dependencies": {
-        "esprima": "~1.1.1",
-        "escodegen": "~1.3.0",
-        "astral": "~0.1.0",
-        "astral-pass": "~0.1.0",
-        "underscore": "~1.6.0",
-        "commander": "~2.2.0"
-    }
+  "name": "ngbuild",
+  "version": "0.0.7",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/galkinrost/ngbuild"
+  },
+  "bin": "./bin/ngbuild",
+  "dependencies": {
+    "esprima": "~1.1.1",
+    "escodegen": "~1.3.0",
+    "astral": "~0.1.0",
+    "astral-pass": "~0.1.0",
+    "underscore": "~1.6.0",
+    "commander": "~2.2.0",
+    "fs-extra": "~0.8.1"
+  }
 }
