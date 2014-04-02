@@ -1,0 +1,1 @@
+angular.module("App", ['/app/controllers/module.js']);
