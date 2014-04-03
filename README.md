@@ -57,7 +57,19 @@ angular.module('App',['Controllers']);
 ```
 Cause filename <strong>module.js</strong> is special and means that this file must be inserted before other from  folder.
 
-And the last
+Including templates and styles in directives
+---
+```
+angular.module('App.directives',[])
+    directive('MyDirective',function(){
+        return {
+            template:'/template.html',
+            styles:'/styles.css'
+        }
+    });
+```
+
+Multiple modules in one file
 ----
 We can have app's architecture like that
 ```

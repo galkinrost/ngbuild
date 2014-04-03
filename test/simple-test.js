@@ -45,19 +45,27 @@ describe('Scripts concat', function () {
 
     it('Insert directives with styles', function () {
         var result = "angular.module('App.directivesWithStyles', []).directive('AppDirectiveWithStyles', function () {\n" +
-            "    return {};\n" +
-            "});\n" +
+            "    return { template: '<style>.directive {\\n}</style>' };\n});\n" +
             "angular.module('App', ['App.directivesWithStyles']);"
-        var resultStyles = ".directive {\n}"
 
         ngbuild({
             src: 'app/styles_directive_app.js',
-            dest: 'app/styles_directive_app.build.js',
-            styles: 'app/styles/styles.build.css'
+            dest: 'app/styles_directive_app.build.js'
         });
 
         fs.readFileSync('app/styles_directive_app.build.js', 'utf-8').should.be.equal(result);
+    });
 
-        fs.readFileSync('app/styles/styles.build.css', 'utf-8').should.be.equal(resultStyles);
+    it('Insert directives with template and styles', function () {
+        var result = "angular.module('App.directivesWithTemplateAndStyles', []).directive('AppDirectiveWithTemplateAndStyles', function () {\n" +
+            "    return { template: '<style>.directive {\\n}</style><span>templates/directives/template.html</span>' };\n});\n" +
+            "angular.module('App', ['App.directivesWithTemplateAndStyles']);"
+
+        ngbuild({
+            src: 'app/template_and_styles_directive_app.js',
+            dest: 'app/template_and_styles_directive_app.build.js'
+        });
+
+        fs.readFileSync('app/template_and_styles_directive_app.build.js', 'utf-8').should.be.equal(result);
     });
 });

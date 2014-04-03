@@ -1,0 +1,1 @@
+angular.module('App', ['/app/directives/directive_with_template_and_styles.js']);
