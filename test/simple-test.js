@@ -11,13 +11,13 @@ describe('Scripts concat', function () {
             src: 'app/simple_app.js',
             dest: 'app/simple_app.build.js'
         }).on('end', function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 fs.readFile('app/simple_app.build.js', 'utf-8', function (err, file) {
                     if (err)return done(err);
                     file.should.be.equal(result);
                     done();
                 });
-            },100);
+            }, 100);
         });
 
     });
@@ -32,13 +32,13 @@ describe('Scripts concat', function () {
             src: 'app/controllers_app.js',
             dest: 'app/controllers_app.build.js'
         }).on('end', function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 fs.readFile('app/controllers_app.build.js', 'utf-8', function (err, file) {
                     if (err)return done(err);
                     file.should.be.equal(result);
                     done();
                 });
-            },100);
+            }, 100);
         });
 
     });
@@ -53,13 +53,13 @@ describe('Scripts concat', function () {
             src: 'app/template_directive_app.js',
             dest: 'app/template_directive_app.build.js'
         }).on('end', function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 fs.readFile('app/template_directive_app.build.js', 'utf-8', function (err, file) {
                     if (err)return done(err);
                     file.should.be.equal(result);
                     done();
                 });
-            },100);
+            }, 100);
         });
 
     });
@@ -73,13 +73,13 @@ describe('Scripts concat', function () {
             src: 'app/styles_directive_app.js',
             dest: 'app/styles_directive_app.build.js'
         }).on('end', function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 fs.readFile('app/styles_directive_app.build.js', 'utf-8', function (err, file) {
                     if (err)return done(err);
                     file.should.be.equal(result);
                     done();
                 });
-            },100);
+            }, 100);
         });
 
     });
@@ -93,14 +93,36 @@ describe('Scripts concat', function () {
             src: 'app/template_and_styles_directive_app.js',
             dest: 'app/template_and_styles_directive_app.build.js'
         }).on('end', function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 fs.readFile('app/template_and_styles_directive_app.build.js', 'utf-8', function (err, file) {
                     if (err)return done(err);
                     file.should.be.equal(result);
                     done();
                 });
-            },100);
+            }, 100);
         });
 
     });
+
+    it('App with simple module', function (done) {
+        var result = "angular.module('App.controllers', []);\n" +
+            "angular.module('App.controllers').controller('AppFirstCtrl', function () {\n});\n" +
+            "angular.module('App.controllers').controller('AppSecondCtrl', function () {\n});\n" +
+            "angular.module('App', [\n    'NgRoute',\n    'App.controllers'\n]);\n"
+
+        ngbuild({
+            src: 'app/full_app.js',
+            dest: 'app/full_app.build.js'
+        }).on('end', function () {
+            setTimeout(function () {
+                fs.readFile('app/full_app.build.js', 'utf-8', function (err, file) {
+                    if (err)return done(err);
+                    file.should.be.equal(result);
+                    done();
+                });
+            }, 100);
+        });
+
+    });
+
 });
