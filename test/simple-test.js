@@ -148,5 +148,28 @@ describe('Scripts concat', function () {
 
     });
 
+    it('Build with lib', function (done) {
+        var result = "(function () {\n" +
+            "    console.log('Hello lib!');\n" +
+            "})();\n" +
+            "angular.module('App.directivesWithLib', []).directive('AppDirectiveWithLib', function () {\n" +
+            "    return {};\n});\n" +
+            "angular.module('App', ['App.directivesWithLib']);\n"
+
+        ngbuild({
+            src: 'app/lib_app.js',
+            dest: 'app/lib_app.build.js'
+        }).on('end', function () {
+            setTimeout(function () {
+                fs.readFile('app/lib_app.build.js', 'utf-8', function (err, file) {
+                    if (err)return done(err);
+                    file.should.be.equal(result);
+                    done();
+                });
+            }, 100);
+        });
+
+    });
+
 
 });

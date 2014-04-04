@@ -1,0 +1,1 @@
+angular.module('App', ['!/app/lib/somelib.js','/app/directives/directive_with_lib.js']);
