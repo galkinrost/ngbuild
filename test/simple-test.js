@@ -125,4 +125,28 @@ describe('Scripts concat', function () {
 
     });
 
+    it('Build without dublicates', function (done) {
+        var result = "angular.module('App.controllers', []);\n" +
+            "angular.module('App.controllers').controller('AppFirstCtrl', function () {\n});\n" +
+            "angular.module('App.controllers').controller('AppSecondCtrl', function () {\n});\n" +
+            "angular.module('App.directivesWithControllers', ['App.controllers']).directive('AppDirectiveWithControllers', function () {\n" +
+            "    return {};\n});\n" +
+            "angular.module('App', [\n    'App.controllers',\n    'App.directivesWithControllers'\n]);\n"
+
+        ngbuild({
+            src: 'app/dublicates_app.js',
+            dest: 'app/dublicates_app.build.js'
+        }).on('end', function () {
+            setTimeout(function () {
+                fs.readFile('app/dublicates_app.build.js', 'utf-8', function (err, file) {
+                    if (err)return done(err);
+                    file.should.be.equal(result);
+                    done();
+                });
+            }, 100);
+        });
+
+    });
+
+
 });

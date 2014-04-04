@@ -1,0 +1,1 @@
+angular.module('App', ['/app/controllers', '/app/directives/directive_with_controllers.js']);
