@@ -1,6 +1,6 @@
 {
   "name": "ngbuild",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "NGBUILD is lightweight tool for build your Angular.js app on the fly.",
   "license": "MIT",
   "repository": {
