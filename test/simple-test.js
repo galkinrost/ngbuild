@@ -171,5 +171,22 @@ describe('Scripts concat', function () {
 
     });
 
+    it.only('Build app with routes', function (done) {
+        var result = "angular.module('App', ['ngRoute'], function ($routeProvider) {\n" +
+            "    $routeProvider.when('/url/1', { template: '<style>.styles{\\n\\n}</style><span>templates/template.html</span>' }).when('/url/2', { template: '<style>.styles{\\n\\n}</style><span>templates/template.html</span>' });\n" +
+            "});\n"
 
+        ngbuild({
+            src: 'app/router_app.js',
+            dest: 'app/router_app.build.js'
+        }).on('end', function () {
+            setTimeout(function () {
+                fs.readFile('app/router_app.build.js', 'utf-8', function (err, file) {
+                    if (err)return done(err);
+                    file.should.be.equal(result);
+                    done();
+                });
+            }, 100);
+        });
+    });
 });
