@@ -190,7 +190,7 @@ describe('Scripts concat', function () {
         });
     });
 
-    it.only('Building with custom writable stream', function (done) {
+    it('Building with custom writable stream', function (done) {
         var content = fs.readFileSync('app/simple_app.js');
         var writeResult = '';
         var Writable = require('stream').Writable;
