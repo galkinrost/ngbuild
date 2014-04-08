@@ -5,7 +5,7 @@ var fs = require('fs');
 describe('Scripts concat', function () {
     it('Insert of one file', function (done) {
         var result = "angular.module('App.controllers', []);\n" +
-            "angular.module('App', ['App.controllers']);\n"
+            "angular.module('App', ['App.controllers']);\n";
 
         ngbuild.build({
             src: 'app/simple_app.js',
