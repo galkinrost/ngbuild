@@ -1,6 +1,6 @@
 {
   "name": "ngbuild",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "NGBUILD is lightweight tool for build your Angular.js app on the fly.",
   "license": "MIT",
   "repository": {
@@ -39,8 +39,8 @@
     "index.js"
   ],
   "bin": "./bin/ngbuild",
-  "scripts":{
-      "test":"cd test && mocha simple-test.js"
+  "scripts": {
+    "test": "cd test && mocha simple-test.js"
   },
   "dependencies": {
     "esprima": "~1.1.1",
