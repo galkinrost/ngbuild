@@ -39,6 +39,9 @@
     "index.js"
   ],
   "bin": "./bin/ngbuild",
+  "scripts":{
+      "test":"cd test && mocha simple-test.js"
+  },
   "dependencies": {
     "esprima": "~1.1.1",
     "escodegen": "~1.3.0",
