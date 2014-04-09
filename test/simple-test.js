@@ -1,5 +1,5 @@
 var should = require('should');
-var ngbuild = require('../lib/ngbuild');
+var ngbuild = require('../index');
 var fs = require('fs');
 
 describe('Scripts concat', function () {
@@ -218,6 +218,111 @@ describe('Scripts concat', function () {
             done()
         });
         readable.pipe(writable);
+    });
+
+});
+
+describe('Scripts concat in sync mode', function () {
+    it('Insert of one file', function () {
+        var result = "angular.module('App.controllers', []);\n" +
+            "angular.module('App', ['App.controllers']);";
+
+        ngbuild.buildSync({
+            src: 'app/simple_app.js'
+        }).should.be.equal(result);
+    });
+
+    it('Insert of folder', function () {
+        var result = "angular.module('App.controllers', []);\n" +
+            "angular.module('App.controllers').controller('AppFirstCtrl', function () {\n});\n" +
+            "angular.module('App.controllers').controller('AppSecondCtrl', function () {\n});\n" +
+            "angular.module('App', ['App.controllers']);"
+
+        ngbuild.buildSync({
+            src: 'app/controllers_app.js'
+        }).should.be.equal(result);
+    });
+
+    it('Insert directives with templates', function () {
+        var result = "angular.module('App.directivesWithTemplate', []).directive('AppDirectiveWithTemplate', function () {\n" +
+            "    return { template: '<span>templates/directives/template.html</span>' };\n" +
+            "});\n" +
+            "angular.module('App', ['App.directivesWithTemplate']);"
+
+        ngbuild.buildSync({
+            src: 'app/template_directive_app.js'
+        }).should.be.equal(result);
 
     });
+
+    it('Insert directives with styles', function () {
+        var result = "angular.module('App.directivesWithStyles', []).directive('AppDirectiveWithStyles', function () {\n" +
+            "    return { template: '<style>.directive {\\n}</style>' };\n});\n" +
+            "angular.module('App', ['App.directivesWithStyles']);"
+
+        ngbuild.buildSync({
+            src: 'app/styles_directive_app.js'
+        }).should.be.equal(result);
+    });
+
+    it('Insert directives with template and styles', function () {
+        var result = "angular.module('App.directivesWithTemplateAndStyles', []).directive('AppDirectiveWithTemplateAndStyles', function () {\n" +
+            "    return { template: '<style>.directive {\\n}</style><span>templates/directives/template.html</span>' };\n});\n" +
+            "angular.module('App', ['App.directivesWithTemplateAndStyles']);"
+
+        ngbuild.buildSync({
+            src: 'app/template_and_styles_directive_app.js'
+        }).should.be.equal(result);
+    });
+
+    it('App with simple module', function () {
+        var result = "angular.module('App.controllers', []);\n" +
+            "angular.module('App.controllers').controller('AppFirstCtrl', function () {\n});\n" +
+            "angular.module('App.controllers').controller('AppSecondCtrl', function () {\n});\n" +
+            "angular.module('App', [\n    'App.controllers',\n    'NgRoute'\n]);"
+
+        ngbuild.buildSync({
+            src: 'app/full_app.js'
+        }).should.be.equal(result);
+
+    });
+
+    it('Build without dublicates', function () {
+        var result = "angular.module('App.controllers', []);\n" +
+            "angular.module('App.controllers').controller('AppFirstCtrl', function () {\n});\n" +
+            "angular.module('App.controllers').controller('AppSecondCtrl', function () {\n});\n" +
+            "angular.module('App.directivesWithControllers', ['App.controllers']).directive('AppDirectiveWithControllers', function () {\n" +
+            "    return {};\n});\n" +
+            "angular.module('App', [\n    'App.controllers',\n    'App.directivesWithControllers'\n]);"
+
+        ngbuild.buildSync({
+            src: 'app/dublicates_app.js'
+        }).should.be.equal(result);
+
+    });
+
+    it('Build with lib', function () {
+        var result = "(function () {\n" +
+            "    console.log('Hello lib!');\n" +
+            "})();\n" +
+            "angular.module('App.directivesWithLib', []).directive('AppDirectiveWithLib', function () {\n" +
+            "    return {};\n});\n" +
+            "angular.module('App', ['App.directivesWithLib']);"
+
+        ngbuild.buildSync({
+            src: 'app/lib_app.js'
+        }).should.be.equal(result);
+
+    });
+
+    it('Build app with routes', function () {
+        var result = "angular.module('App', ['ngRoute'], function ($routeProvider) {\n" +
+            "    $routeProvider.when('/url/1', { template: '<style>.styles{\\n\\n}</style><span>templates/template.html</span>' }).when('/url/2', { template: '<style>.styles{\\n\\n}</style><span>templates/template.html</span>' });\n" +
+            "});"
+
+        ngbuild.buildSync({
+            src: 'app/router_app.js'
+        }).should.be.equal(result);
+    });
+
 });
