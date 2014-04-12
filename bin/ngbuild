@@ -18,6 +18,6 @@ var infile = program.args[0];
 var outfile = program.args[1];
 
 
-var build = ngbuild({src: infile, dest: outfile});
+ngbuild.build({src: infile, dest: outfile});
 
 
