@@ -7,7 +7,7 @@ var test = require('../lib/test');
 
 beforeEach(function (done) {
     rimraf('tmp', function () {
-        fs.mkdir('tmp',done);
+        fs.mkdir('tmp', done);
     });
 });
 
@@ -199,6 +199,20 @@ describe('Scripts concat', function () {
         });
     });
 
+    it('Should build app with subdirs', function (done) {
+        ngbuild.build({
+            src: 'app/subdirectory_app.js',
+            dest: 'tmp/subdirectory_app.js'
+        }).on('end', function () {
+            setTimeout(function () {
+                fs.readFile('tmp/subdirectory_app.js', 'utf-8', function (err, file) {
+                    if (err)return done(err);
+                    test.expect(file, 'expected/subdirectory_app.js');
+                    done();
+                });
+            }, 100);
+        });
+    });
 });
 
 describe('Scripts concat in sync mode', function () {
@@ -280,5 +294,13 @@ describe('Scripts concat in sync mode', function () {
         });
 
         test.expect(result, 'expected/module_app.js');
+    });
+
+    it('Should build app with subdirs', function () {
+        var result = ngbuild.buildSync({
+            src: 'app/subdirectory_app.js'
+        });
+
+        test.expect(result, 'expected/subdirectory_app.js');
     });
 });
