@@ -17,6 +17,11 @@ For using in the project
 npm install --save ngbuild
 ```
 
+Plugins
+-----
+Grunt - https://github.com/galkinrost/grunt-ngbuild
+Gulp - https://github.com/galkinrost/gulp-ngbuild
+
 Example
 --------------
 
@@ -158,6 +163,40 @@ Subfolders
         template.html
         styles.css
 ```
+
+<strong>/app.js</strong>
+```javascript
+angular.module('App',['directives/*']);
+```
+<strong>/directives/directive/directive.js</strong>
+```javascript
+angular.module('App.directives')
+	.directive('directive',function(){
+    	return{
+    		templateUrl:'template.html',
+            styles:'styles.css'
+    	}
+	});
+```
+External libs
+-------------
+<strong>/app.js</strong>
+```javascript
+angular.module('App',['!/lib/jquery.js']);
+```
+<strong>result</strong>
+```javascript
+/**
+* JQUERY HERE
+**/
+angular.module('App',[]);
+```
+Pathes
+----
+- relative - 'file_path'
+- absolute - '/file_path'
+- library - '!(/)file_path
+- subdirectory - (/)directory_path/*
 
 
 License
