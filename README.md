@@ -45,10 +45,76 @@ ngbuild.build({
 
 var content=ngbuild.buildSync({
 	src:'app.js'
-    });
+});
 ```
 
+Templates
+--------------------------
+Both html and jade
+<strong>/app.js</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            templateUrl: "template.html"
+        })
+        .when("/url2", {
+            templateUrl: "template.jade"
+        });
+});	
+```
+<strong>result</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            template: "<span>template.html</span>"
+        })
+        .when("/url2", {
+            template: "<span>template.jade</span>"
+        });
+});	
+```
+CSS
+-------
+<strong>/app.js</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            templateUrl: "template.html"
+        })
+        .when("/url2", {
+            templateUrl: "template.jade"
+        });
+});	
+```
+<strong>result</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            template: "<span>template.html</span>"
+        })
+        .when("/url2", {
+            template: "<span>template.jade</span>"
+        });
+});	
 
+<strong>directives folder</strong>
+```
+/directives
+	/module.js
+    /directive.js
+```
+<strong>/directive/module.js(!special name of file with module declaration)</strong>
+```javascript
+angular.module('App.directives',['../controllers']);
+```
+<strong>/directives/directive.js</strong>
+```javascript
+angular.module('App.directives',['..'
+```
 
 License
 ----
