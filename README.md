@@ -20,7 +20,7 @@ npm install --save ngbuild
 Example
 --------------
 
-<strong>/app.js:</strong>
+<strong>/app.js</strong>
 ```javascript
 angular.module('App',['controllers.js']);
 ```
@@ -28,7 +28,7 @@ angular.module('App',['controllers.js']);
 ```javascript
 angular.module('App.controllers',[]);
 ```
-<strong>result:</strong>
+<strong>result</strong>
 ```javascript
 angular.module('App.controllers',[]);
 angular.module('App',['App.controlers']);
@@ -61,6 +61,14 @@ angular.module('App',[],function ($routeProvider) {
         .when("/url2", {
             templateUrl: "template.jade"
         });
+}).directive('html',function(){
+	return{
+    	templateUrl:"template.html"
+    }
+}).directive('jade',function(){
+	return{
+    	templateUrl:"template.jade"
+    }
 });	
 ```
 <strong>result</strong>
@@ -73,6 +81,14 @@ angular.module('App',[],function ($routeProvider) {
         .when("/url2", {
             template: "<span>template.jade</span>"
         });
+}).directive('html',function(){
+	return{
+    	template:"<span>template.html</span>"
+    }
+}).directive('jade',function(){
+	return{
+    	template:"<span>template.jade</span>"
+    }
 });	
 ```
 CSS
@@ -82,39 +98,67 @@ CSS
 angular.module('App',[],function ($routeProvider) {
     $routeProvider
         .when("/url1", {
+        	styles:"styles.css",
             templateUrl: "template.html"
         })
-        .when("/url2", {
-            templateUrl: "template.jade"
-        });
-});	
+})
+...
 ```
 <strong>result</strong>
 ```javascript
 angular.module('App',[],function ($routeProvider) {
     $routeProvider
         .when("/url1", {
-            template: "<span>template.html</span>"
+            template: "styles{font-size:10px}<span>template.html</span>"
         })
-        .when("/url2", {
-            template: "<span>template.jade</span>"
-        });
-});	
-
+})
+...
+```
+Folders
+-----------
 <strong>directives folder</strong>
 ```
+/app.js
 /directives
 	/module.js
     /directive.js
 ```
+<strong>/app.js</strong>
+```javascript
+angular.module('App',['directives']);
+```
 <strong>/directive/module.js(!special name of file with module declaration)</strong>
 ```javascript
-angular.module('App.directives',['../controllers']);
+angular.module('App.directives',[]);
 ```
 <strong>/directives/directive.js</strong>
 ```javascript
-angular.module('App.directives',['..'
+angular.module('App.directives')
+	.directive('directive',function(){
+    ...
+    });
 ```
+<strong>result</strong>
+```javascript
+angular.module('App.directives',[]);
+angular.module('App.directives').directive('directive',function(){
+...
+});
+angular.module('App',['App.directives']);
+```
+Subfolders
+--------------
+<strong>directives folder</strong>
+```
+/app.js
+/directives
+	/module.js
+    /directive/
+    	directive.js
+        template.html
+        styles.css
+```
+
 
 License
 ----
