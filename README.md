@@ -2,102 +2,8 @@ NGBUILD
 =========
 
 NGBUILD is lightweight tool for build your Angular.js app on the fly.
-
-The Idea
---
-To use Angular.js build-in module architecture.
-Example:
 <br>
-in <strong>/app.js</strong>
-```javascript
-angular.module('App',['/some_path/my_module.js']);
-```
-in <strong>/some_path/my_module.js</strong>
-```javascript
-angular.module('MyModule',[]);
-```
-Now call the <strong>ngbuild</strong>
-
-```sh
-ngbuild app.js app.build.js
-```
-and look in <strong>/app.build.js</strong>
-
-```javascript
-angular.module('MyModule',[]);
-angular.module('App',['MyModule']);
-```
-One more example
-----
-We can have app's architecture like that
-```
-/app.js
-/controllers
-    /module.js
-    /first_ctrl.js
-
-```
-In <strong>/app.js</strong>
-```javascript
-angular.module('App',['/controllers']);
-```
-In <strong>/controllers/module.js</strong>
-```javascript
-angular.module('Controllers',[]);
-```
-In <strong>/controllers/first_ctrl.js</strong>
-```javascript
-angular.module('Controllers').controller('FirstCtrl',function($scope){});
-```
-Call ngbuild and get in <stong>/app.build.js</strong>
-```javascript
-angular.module('Controllers',[]);
-angular.module('Controllers').controller('FirstCtrl',function($scope){});
-angular.module('App',['Controllers']);
-```
-Cause filename <strong>module.js</strong> is special and means that this file must be inserted before other from  folder.
-
-Including templates and styles in directives
----
-```
-angular.module('App.directives',[])
-    directive('MyDirective',function(){
-        return {
-            template:'/template.html',
-            styles:'/styles.css'
-        }
-    });
-```
-
-Multiple modules in one file
-----
-We can have app's architecture like that
-```
-/app.js
-/modules.js 
-```
-In <strong>/app.js</strong>
-```javascript
-angular.module('App',['/modules']);
-```
-In <strong>/modules.js</strong>
-```javascript
-angular.module('Controllers',[]);
-angular.module('Directives',[]);
-angular.module('Filters',[]);
-```
-Call ngbuild and get in <stong>/app.build.js</strong>
-```javascript
-angular.module('Controllers',[]);
-angular.module('Directives',[]);
-angular.module('Filters',[]);
-angular.module('App',['Controllers','Directives','Filters']);
-```
-Rules
----
-All modules must be inserted must begin with <strong>forward slash</strong> <em>/</em>
-<br>
-If path is a folder it must have special file <stong>module.js</strong> with module
+Example project - https://github.com/galkinrost/angular-super-seed
 
 Installation
 --------------
@@ -113,57 +19,190 @@ For using in the project
 npm install --save ngbuild
 ```
 
-Gulp/Grunt
----
-Example of gulp integration
+Plugins
+-----
+Grunt - https://github.com/galkinrost/grunt-ngbuild
+<br>
+Gulp - https://github.com/galkinrost/gulp-ngbuild
 
+Example
+--------------
+
+<strong>/app.js</strong>
 ```javascript
-var gulp=require('gulp');
-var ngbuild=require('ngbuild');
+angular.module('App',['controllers.js']);
+```
+<strong>/controllers.js</strong>
+```javascript
+angular.module('App.controllers',[]);
+```
+<strong>result</strong>
+```javascript
+angular.module('App.controllers',[]);
+angular.module('App',['App.controlers']);
+```
 
-gulp.task('ngbuild', function () {
-    ngbuild({
-        src: 'app.js',
-        dest: 'app.build.js'
-    });
 
+Usage
+-----------------
+```javascript
+var ngbuild=ngbuild;
+ngbuild.build({
+	src:'app.js',
+    dest:'app.build.js'
 });
 
-gulp.task('watch', function () {
-    gulp.watch(['**/*'], ['ngbuild']);
+var content=ngbuild.buildSync({
+	src:'app.js'
 });
 ```
 
-```sh
-gulp watch
-```
-
-Example of grunt integration
-
+Templates
+--------------------------
+Both html and jade
+<br>
+<strong>/app.js</strong>
 ```javascript
-var grunt = require('grunt');
-var ngbuild = require('ngbuild');
-
-grunt.initConfig({
-    watch: {
-        files: ['**/*'],
-        tasks: ['ngbuild']
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            templateUrl: "template.html"
+        })
+        .when("/url2", {
+            templateUrl: "template.jade"
+        });
+}).directive('html',function(){
+	return{
+    	templateUrl:"template.html"
     }
-});
-
-grunt.loadNpmTasks('grunt-contrib-watch');
-
-grunt.registerTask('ngbuild', function () {
-    ngbuild({
-        src: 'app.js',
-        dest: 'app.build.js'
+}).directive('jade',function(){
+	return{
+    	templateUrl:"template.jade"
+    }
+});	
+```
+<strong>result</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            template: "<span>template.html</span>"
+        })
+        .when("/url2", {
+            template: "<span>template.jade</span>"
+        });
+}).directive('html',function(){
+	return{
+    	template:"<span>template.html</span>"
+    }
+}).directive('jade',function(){
+	return{
+    	template:"<span>template.jade</span>"
+    }
+});	
+```
+CSS
+-------
+<strong>/app.js</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+        	styles:"styles.css",
+            templateUrl: "template.html"
+        })
+})
+...
+```
+<strong>result</strong>
+```javascript
+angular.module('App',[],function ($routeProvider) {
+    $routeProvider
+        .when("/url1", {
+            template: "styles{font-size:10px}<span>template.html</span>"
+        })
+})
+...
+```
+Folders
+-----------
+<strong>directives folder</strong>
+```
+/app.js
+/directives
+	/module.js
+    /directive.js
+```
+<strong>/app.js</strong>
+```javascript
+angular.module('App',['directives']);
+```
+<strong>/directive/module.js(!special name of file with module declaration)</strong>
+```javascript
+angular.module('App.directives',[]);
+```
+<strong>/directives/directive.js</strong>
+```javascript
+angular.module('App.directives')
+	.directive('directive',function(){
+    ...
     });
+```
+<strong>result</strong>
+```javascript
+angular.module('App.directives',[]);
+angular.module('App.directives').directive('directive',function(){
+...
 });
+angular.module('App',['App.directives']);
+```
+Subfolders
+--------------
+<strong>directives folder</strong>
+```
+/app.js
+/directives
+	/module.js
+    /directive/
+    	directive.js
+        template.html
+        styles.css
 ```
 
-```sh
-grunt watch
+<strong>/app.js</strong>
+```javascript
+angular.module('App',['directives/*']);
 ```
+<strong>/directives/directive/directive.js</strong>
+```javascript
+angular.module('App.directives')
+	.directive('directive',function(){
+    	return{
+    		templateUrl:'template.html',
+            styles:'styles.css'
+    	}
+	});
+```
+External libs
+-------------
+<strong>/app.js</strong>
+```javascript
+angular.module('App',['!/lib/jquery.js']);
+```
+<strong>result</strong>
+```javascript
+/**
+* JQUERY HERE
+**/
+angular.module('App',[]);
+```
+Pathes
+----
+- relative - 'file_path'
+- absolute - '/file_path'
+- library - '!(/)file_path
+- subdirectory - (/)directory_path/*
+
 
 License
 ----
