@@ -213,6 +213,21 @@ describe('Scripts concat', function () {
             }, 100);
         });
     });
+
+    it('Should build app with jade templare', function (done) {
+        ngbuild.build({
+            src: 'app/jade_app.js',
+            dest: 'tmp/jade_app.js'
+        }).on('end', function () {
+            setTimeout(function () {
+                fs.readFile('tmp/jade_app.js', 'utf-8', function (err, file) {
+                    if (err) return done(err);
+                    test.expect(file, 'expected/jade_app.js');
+                    done();
+                });
+            });
+        });
+    });
 });
 
 describe('Scripts concat in sync mode', function () {
@@ -302,5 +317,13 @@ describe('Scripts concat in sync mode', function () {
         });
 
         test.expect(result, 'expected/subdirectory_app.js');
+    });
+
+    it('Should build app with jade template', function () {
+        var result = ngbuild.buildSync({
+            src: 'app/jade_app.js'
+        });
+
+        test.expect(result, 'expected/jade_app.js');
     });
 });
